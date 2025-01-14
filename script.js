@@ -3,38 +3,59 @@ const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const currentMood = document.getElementById("current-mood");
 
-// Mood map for predefined emotions
-const moodMap = {
-    idle: { text: "Idle", color: "#000000" },
-    smiling: { text: "Smiling", color: "#FFC107" },
-    happy: { text: "Happy", color: "#4CAF50" },
-    annoyed: { text: "Annoyed", color: "#FF9800" },
-    angry: { text: "Angry", color: "#F44336" }
-};
+const sassyResponses = [
+    "Ugh, whatever... 🙄",
+    "Can't talk right now, I'm doing hot girl things 💅",
+    "New phone, who dis? 📱",
+    "K.",
+    "That's nice honey... anyway- 💁‍♀️",
+    "*seen at 2:43 PM*",
+    "I'll reply to this later (probably not) 🤷‍♀️",
+    "Sorry, I was too busy being fabulous 👑",
+    "Is that supposed to be interesting? 🥱",
+    "Bestie, I'm gonna need you to calm down ✋",
+];
 
-// Set the mood
-function setMood(moodKey) {
-    const mood = moodMap[moodKey];
+function detectMood(message) {
+    const lowerMessage = message.toLowerCase();
+    if (lowerMessage.includes('love') || lowerMessage.includes('miss')) {
+        return { text: "Ugh, clingy much? 🙄", color: "#ff4b6e" };
+    } else if (lowerMessage.includes('sorry')) {
+        return { text: "As you should be 💅", color: "#4CAF50" };
+    } else if (lowerMessage.includes('bye')) {
+        return { text: "Finally! 😌", color: "#FF9800" };
+    } else {
+        return { text: "Unbothered 💅", color: "#9C27B0" };
+    }
+}
+
+function setMood(mood) {
     currentMood.textContent = mood.text;
     currentMood.style.color = mood.color;
 }
 
-// Mock chatbot response and mood logic
-function getChatbotResponse(message) {
-    const responses = {
-        hello: { reply: "Hi there!", mood: "smiling" },
-        how: { reply: "I'm just a chatbot, but I'm good!", mood: "happy" },
-        bye: { reply: "Goodbye! Have a nice day!", mood: "idle" },
-        annoying: { reply: "Please be polite!", mood: "annoyed" },
-        angry: { reply: "Calm down, please.", mood: "angry" }
-    };
+async function getChatbotResponse(message) {
+    try {
+        const response = await fetch('http://localhost:3000/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message }),
+        });
 
-    // Find the response and mood based on user message
-    const lowerMessage = message.toLowerCase();
-    if (responses[lowerMessage]) {
-        return responses[lowerMessage];
-    } else {
-        return { reply: "I'm not sure how to respond to that.", mood: "idle" };
+        const data = await response.json();
+        return {
+            reply: data.response || sassyResponses[Math.floor(Math.random() * sassyResponses.length)],
+            mood: detectMood(message)
+        };
+    } catch (error) {
+        console.error('Error:', error);
+        const sassyResponse = sassyResponses[Math.floor(Math.random() * sassyResponses.length)];
+        return {
+            reply: sassyResponse,
+            mood: detectMood(sassyResponse)
+        };
     }
 }
 
@@ -42,19 +63,49 @@ function appendMessage(sender, message) {
     const messageElement = document.createElement("div");
     messageElement.textContent = `${sender}: ${message}`;
     chatLog.appendChild(messageElement);
-    chatLog.scrollTop = chatLog.scrollHeight; // Scroll to bottom
+    chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-sendButton.addEventListener("click", () => {
+function showTypingIndicator() {
+    const typingIndicator = document.querySelector('.typing-indicator');
+    typingIndicator.style.display = 'block';
+}
+
+function hideTypingIndicator() {
+    const typingIndicator = document.querySelector('.typing-indicator');
+    typingIndicator.style.display = 'none';
+}
+
+sendButton.addEventListener("click", async () => {
     const userMessage = userInput.value.trim();
     if (userMessage) {
         appendMessage("You", userMessage);
-
-        // Get chatbot's response and mood
-        const { reply, mood } = getChatbotResponse(userMessage);
-        setMood(mood); // Update the mood meter
-        setTimeout(() => appendMessage("Bot", reply), 500); // Simulate delay
-
         userInput.value = "";
+        userInput.disabled = true;
+        sendButton.disabled = true;
+
+        showTypingIndicator();
+        
+        // Random delay between 1 and 3 seconds
+        const delay = Math.random() * 2000 + 1000;
+        setTimeout(async () => {
+            hideTypingIndicator();
+            const { reply, mood } = await getChatbotResponse(userMessage);
+            setMood(mood);
+            appendMessage("Her", reply);
+
+            userInput.disabled = false;
+            sendButton.disabled = false;
+            userInput.focus();
+        }, delay);
     }
 });
+
+userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !e.shiftKey && !userInput.disabled) {
+        sendButton.click();
+    }
+});
+
+// Initial mood
+setMood({ text: "Unbothered 💅", color: "#9C27B0" });
