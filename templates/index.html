@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your AI Girlfriend (who's totally ignoring you)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <img src="cartoon.png" alt="AI Girlfriend" class="cartoon">
+            <div class="status-bubble">
+                <i class="fas fa-heart"></i>
+                <span>Online but ignoring you</span>
+            </div>
+        </div>
+        <div id="mood-meter">
+            <h2>Her Mood: <span id="current-mood">Unbothered 💅</span></h2>
+        </div>
+        <div id="chatbot-container">
+            <div class="chat-header">
+                <span class="typing-indicator">✨ She's probably typing...</span>
+            </div>
+            <div id="chat-log"></div>
+            <div class="input-group">
+                <input type="text" id="user-input" placeholder="Type something she'll ignore..." autocomplete="off">
+                <button id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <div class="relationship-status">
+            Relationship Status: It's complicated 🙄
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
