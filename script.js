@@ -35,29 +35,29 @@ function setMood(mood) {
 }
 
 async function getChatbotResponse(message) {
-    try {
-        const response = await fetch('http://localhost:3000/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message }),
-        });
+  try {
+    const response = await fetch("http://localhost:3000/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    });
 
-        const data = await response.json();
-        return {
-            reply: data.response || sassyResponses[Math.floor(Math.random() * sassyResponses.length)],
-            mood: detectMood(message)
-        };
-    } catch (error) {
-        console.error('Error:', error);
-        const sassyResponse = sassyResponses[Math.floor(Math.random() * sassyResponses.length)];
-        return {
-            reply: sassyResponse,
-            mood: detectMood(sassyResponse)
-        };
-    }
+    const data = await response.json();
+    return {
+      reply: data.response,
+      mood: detectMood(message),
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      reply: "Sorry, there was an issue with the bot.",
+      mood: detectMood(message),
+    };
+  }
 }
+
 
 function appendMessage(sender, message) {
     const messageElement = document.createElement("div");
