@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/Nosu-Hackathon/static/css/main.89a0f117.css",
+    "main.js": "/Nosu-Hackathon/static/js/main.dd5238d3.js",
+    "static/js/453.ce1d9855.chunk.js": "/Nosu-Hackathon/static/js/453.ce1d9855.chunk.js",
+    "static/media/annoyed.png": "/Nosu-Hackathon/static/media/annoyed.f6e78dd993ca4d462884.png",
+    "static/media/happy.png": "/Nosu-Hackathon/static/media/happy.65afc9b3695148e71907.png",
+    "static/media/angry.png": "/Nosu-Hackathon/static/media/angry.f13dfd7fadd9f5fa99fb.png",
+    "static/media/idle.png": "/Nosu-Hackathon/static/media/idle.e26c2efc8bb32d54e3ec.png",
+    "index.html": "/Nosu-Hackathon/index.html",
+    "main.89a0f117.css.map": "/Nosu-Hackathon/static/css/main.89a0f117.css.map",
+    "main.dd5238d3.js.map": "/Nosu-Hackathon/static/js/main.dd5238d3.js.map",
+    "453.ce1d9855.chunk.js.map": "/Nosu-Hackathon/static/js/453.ce1d9855.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.89a0f117.css",
+    "static/js/main.dd5238d3.js"
+  ]
+}
