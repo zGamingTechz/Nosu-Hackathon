@@ -16,7 +16,7 @@ def get_chatbot_response(message):
     # Point to the local server
     client = OpenAI(
         base_url="https://api.studio.nebius.ai/v1/",
-        api_key=""
+        api_key="your_key"
     )
 
     completion = client.chat.completions.create(
