@@ -1,5 +1,6 @@
 from openai import OpenAI
 import string
+import key
 
 
 def extract_first_word(text):
@@ -16,7 +17,7 @@ def get_chatbot_response(message):
     # Point to the local server
     client = OpenAI(
         base_url="https://api.studio.nebius.ai/v1/",
-        api_key="your_key"
+        api_key=key.return_key()
     )
 
     completion = client.chat.completions.create(
