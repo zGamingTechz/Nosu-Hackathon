@@ -5,14 +5,21 @@ const currentMood = document.getElementById("current-mood");
 
 function setMood(mood) {
     const moodMap = {
-        idle: { text: "Idle 💤", color: "#000000" },
-        smiling: { text: "Smiling 😏", color: "#FFC107" },
-        happy: { text: "Happy 😜", color: "#4CAF50" },
-        annoyed: { text: "Annoyed 🙄", color: "#FF9800" },
-        angry: { text: "Angry 😤", color: "#F44336" }
+        idle: { text: "Idle 💤", color: "#000000", image: "static/images/idle.jpg" },
+        smiling: { text: "Smiling 😏", color: "#FFC107", image: "static/images/smiling.jpg" },
+        happy: { text: "Happy 😜", color: "#4CAF50", image: "static/images/happy.jpg" },
+        annoyed: { text: "Annoyed 🙄", color: "#FF9800", image: "static/images/annoyed.jpg" },
+        angry: { text: "Angry 😤", color: "#F44336", image: "static/images/angry.jpg" }
     };
     currentMood.textContent = moodMap[mood].text;
     currentMood.style.color = moodMap[mood].color;
+    const cartoonImage = document.querySelector(".cartoon");
+    if (cartoonImage) {
+        cartoonImage.src = moodMap[mood].image;
+    }
+    else  {
+        console.log("h");
+    }
 }
 
 function appendMessage(sender, message) {
